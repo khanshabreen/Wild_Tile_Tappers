@@ -94,7 +94,7 @@ function selectTile() {
     if (this == currMoleTile) {
         document.getElementById("right-sound").play();
 
-        score +=50;
+        score +=10;
         document.getElementById("score").innerText = "Score: " + score.toString();
         
         if (score >= 200 && level == 1) {
