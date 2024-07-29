@@ -5,6 +5,7 @@ let gameOver = false;
 let moleInterval;
 let plantInterval;
 let level = 1; // Track current level
+var misscount=0;
 
 window.onload = function() {
     document.getElementById("start").addEventListener("click", startGame);
@@ -22,6 +23,8 @@ function startGame() {
     document.getElementById("score").style.visibility = "visible";
     document.getElementById("game-over-message").style.display = "none"; // Hide game over message
     document.getElementById("level-up-message").style.display = "none"; // Hide level up message
+    document.getElementById("level-up-message2").style.display = "none";
+    document.getElementById("game-over-message2").style.display = "none";
 }
 
 function setGame() {
@@ -81,7 +84,7 @@ function setPlant() {
     currPlantTiles.push(document.getElementById(num2));
     
     currPlantTiles[0].appendChild(plant1);
-    currPlantTiles[1].appendChild(plant2);
+   
 }
 
 function selectTile() {
@@ -91,13 +94,14 @@ function selectTile() {
     if (this == currMoleTile) {
         document.getElementById("right-sound").play();
 
-        score +=10;
+        score +=50;
         document.getElementById("score").innerText = "Score: " + score.toString();
         
-        if (score >= 200 && level === 1) {
+        if (score >= 200 && level == 1) {
             levelUp();
+
         }
-        if (score >= 400 && level === 2) {
+        if (score >= 400 && level == 2) {
             levelUp2();
         }
     } else if (currPlantTiles.includes(this)) {
@@ -108,16 +112,21 @@ function selectTile() {
         clearInterval(plantInterval);
         document.getElementById("start").style.display = "inline-block";
         document.getElementById("restart").style.display = "none";
-        document.getElementById("game-over-message").style.display = "block"; // Show game over message
+        document.getElementById("level-up-message2").style.display = "none";
+        document.getElementById("game-over-message2").style.display = "none";
+        document.getElementById("game-over-message").style.display = "block"; 
+        document.getElementById("level-up-message2").style.display = "none";// Show game over message
+    }
+    else{
+        misscount++;
+        var value=misscount;
+        checkGameOver(value);
     }
 }
 
-
-
-
-
 function levelUp() {
     level = 2;
+    misscount=0;
     document.getElementById("score").innerText = "Level 2 - Score: " + score.toString();
     clearInterval(moleInterval);
     clearInterval(plantInterval);
@@ -162,9 +171,7 @@ function setPlantLevel2() {
     let plant2 = document.createElement("img");
     plant2.src = "./piranha-plant.png";
     
-   
-
-    let num1, num2, num3;
+    let num1, num2;
     do {
         num1 = getRandomTile();
     } while (currMoleTile && currMoleTile.id == num1);
@@ -173,61 +180,20 @@ function setPlantLevel2() {
         num2 = getRandomTile();
     } while (num2 == num1 || (currMoleTile && currMoleTile.id == num2));
     
-    do {
-        num3 = getRandomTile();
-    } while (num3 == num1 || num3 == num2 || (currMoleTile && currMoleTile.id == num3));
-
+   
     currPlantTiles.push(document.getElementById(num1));
     currPlantTiles.push(document.getElementById(num2));
-    currPlantTiles.push(document.getElementById(num3));
+   
     
     currPlantTiles[0].appendChild(plant1);
     currPlantTiles[1].appendChild(plant2);
-    currPlantTiles[2].appendChild(plant3);
+   
 }
-
-function restartGame() {
-    score = 0;
-    level = 1;
-    gameOver = false;
-    document.getElementById("score").innerText = "Score: " + score.toString();
-    if (currMoleTile) {
-        currMoleTile.innerHTML = "";
-    }
-    currPlantTiles.forEach(tile => tile.innerHTML = "");
-    currPlantTiles = [];
-    currMoleTile = null;
-    clearInterval(moleInterval);
-    clearInterval(plantInterval);
-    moleInterval = setInterval(setMole, 1000);
-    plantInterval = setInterval(setPlant, 2000);
-    document.getElementById("game-over-message").style.display = "none"; // Hide game over message
-    document.getElementById("level-up-message").style.display = "none"; // Hide level up message
-    document.getElementById("level-up-message2").style.display = "none";
-}
-
-function resetBoard() {
-    document.getElementById("board").innerHTML = "";
-    document.getElementById("score").innerText = "Score: 0";
-    score = 0;
-    currMoleTile = null;
-    currPlantTiles.forEach(tile => tile.innerHTML = "");
-    currPlantTiles = [];
-    gameOver = false;
-    document.getElementById("game-over-message").style.display = "none"; // Hide game over message
-    document.getElementById("level-up-message").style.display = "none"; // Hide level up message
-    document.getElementById("level-up-message2").style.display = "none";
-}
-
-
-
-
-
-
 
 
 function levelUp2() {
     level = 3;
+    misscount=0;
     document.getElementById("score").innerText = "Level 3- Score: " + score.toString();
     clearInterval(moleInterval);
     clearInterval(plantInterval);
@@ -315,7 +281,9 @@ function restartGame() {
     plantInterval = setInterval(setPlant, 2000);
     document.getElementById("game-over-message").style.display = "none"; // Hide game over message
     document.getElementById("level-up-message").style.display = "none"; 
-    document.getElementById("level-up-message2").style.display = "none";// Hide level up message
+    document.getElementById("level-up-message2").style.display = "none";
+    document.getElementById("game-over-message2").style.display = "none";
+ 
 }
 
 function resetBoard() {
@@ -329,4 +297,20 @@ function resetBoard() {
     document.getElementById("game-over-message").style.display = "none"; // Hide game over message
     document.getElementById("level-up-message").style.display = "none"; // Hide level up message
     document.getElementById("level-up-message2").style.display = "none";
+    document.getElementById("game-over-message2").style.display = "none";
+}
+
+
+function checkGameOver(value) {
+    if (value > 2) {
+        document.getElementById("score").innerText = "GAME OVER: " + score.toString();
+        document.getElementById("wrong-sound").play();
+        gameOver = true;
+        clearInterval(moleInterval);
+        clearInterval(plantInterval);
+        document.getElementById("start").style.display = "inline-block";
+        document.getElementById("restart").style.display = "none";
+        document.getElementById("game-over-message").style.display = "none";
+        document.getElementById("game-over-message2").style.display = "block";
+    }
 }
