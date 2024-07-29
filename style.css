@@ -1,0 +1,134 @@
+/* General Body Styling */
+body {
+    font-family: 'Press Start 2P', cursive; /* Retro game-style font */
+    text-align: center;
+    background: url("./mario-bg.jpg");
+    background-size: cover;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Styling for the main title */
+h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ffbb00; /* Bright yellow for visibility */
+    text-shadow: 2px 2px 5px #000; /* Shadow effect for depth */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Styling for the score */
+#score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #7dff03; /* Bright green for contrast */
+    text-shadow: 1px 1px 3px #000; /* Shadow effect for better readability */
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* Example of adding some animations for the headings */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+h1 {
+    animation: pulse 1s infinite; /* Pulsing effect for the title */
+}
+
+#score {
+    animation: pulse 1.5s infinite; /* Slightly slower pulsing effect for the score */
+}
+#board {
+    width: 540px;
+    height: 540px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    background: url("./soil.png");
+    background-size: cover;
+    border: 3px solid white;
+    border-radius: 25px;
+    position: relative; /* Required for absolute positioning of messages */
+    /* Custom cursor */
+}
+
+#board div {
+    width: 180px; 
+    height: 180px;
+    background-image: url("./pipe.png");
+    background-size: cover;
+}
+
+#board div img {
+    width: 100px;
+    height: 100px;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#start, #restart {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 140px;
+    color: #fff;
+    background-color: #966318;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+#start:hover, #restart:hover {
+    background-color: #a19258;
+}
+
+#start:active, #restart:active {
+    background-color: #ccb743;
+}
+
+.message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(190, 208, 203);
+    background-color: rgba(113, 80, 80, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    display: none; /* Hide by default */
+}
+
+
+
+@media (max-width: 600px) {
+    #start {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    
+    #button-container {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    #start {
+        font-size: 15px;
+        padding: 9px 18px;
+    }
+}
+
+
+
